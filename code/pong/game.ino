@@ -24,7 +24,7 @@ int stato;
 int giocatoreIniziale;
 unsigned long ultimoTempoMs;
 int punti_giocatore_1, punti_giocatore_2;
-
+int bg;
 
 void gameInit() {
 
@@ -69,6 +69,8 @@ void gameRender() {
     constrain( (pallina.y_x10 + (10*BALL_HEIGHT)/2) - (giocatore_b.y_x10 + (10*PLAYER_HEIGHT)/2), -PLAYER_SPEED, PLAYER_SPEED),
     0, 320-(10*PLAYER_HEIGHT));  
 
+  bg = 0;
+
   /* elaborazione dello stato del gioco */
   switch( stato ) {
     case 1:  /* 1 = attesa che il giocatore si muova per iniziare */
@@ -86,13 +88,16 @@ void gameRender() {
           tone( BUZZER, TONO_BATTUTA_HZ, TONO_BATTUTA_MS );
           
           pallina.vel_x_x10 = 10;
+          pallina.vel_y_x10 = giocatore_a.y_x10 - giocatore_a.old_y_x10;
+            /*
           if ( giocatore_a.y_x10 > giocatore_a.old_y_x10 ) {
             pallina.vel_y_x10 = 10;
           }
           else {
             pallina.vel_y_x10 = -10;
           }
-            
+            */
+
           ultimoTempoMs = millis();
           stato = 2; 
         }
@@ -215,7 +220,7 @@ void gameRender() {
       }
       else {     
       
-        if ((punti_giocatore_1 == 10) || (punti_giocatore_2 == 10)) {
+        if ((punti_giocatore_1 == PUNTI_WINNER) || (punti_giocatore_2 == PUNTI_WINNER)) {
           giocatoreIniziale = 1; 
           punti_giocatore_1 = 0;
           punti_giocatore_2 = 0;
@@ -223,17 +228,24 @@ void gameRender() {
           /* posizioni di gioco iniziali */
           giocatore_a.y_x10 = 140; /* vel non ci interessa */
           giocatore_b.y_x10 = 140; /* vel non ci interessa */
-          pallina.x_x10 = 150;
+          pallina.y_x10 = 150;
+
+          stato = 4;
+          ultimoTempoMs = millis();
         }
         else {
           if (pallina.x_x10 >= 200) { giocatoreIniziale = 1; }  else  { giocatoreIniziale = 2; }
+         
+          stato = 1; 
         }
-        stato = 1; 
-
-      }   
-
-      
-
+      }
+      break;
+    
+    case 4: /* 4 = game over */
+          
+      if ((millis() - ultimoTempoMs) > DELTA_T_GAME_OVER) {
+        stato = 1;  
+      }
       break;
     
     default: 
@@ -247,8 +259,11 @@ void gameRender() {
 
   /* PARTE IL VERO RENDERING */
   /* cancella il buffer */
-  memset( ledmap, 0, 32*32/* *3 */);
+  if ((stato == 1) && (punti_giocatore_1 == 0) && (punti_giocatore_2 == 0)) { bg = 1; }
+  if (stato == 4) { bg = 2; }
 
+  displayDrawBackground( bg );
+  
   /*
   ledmap[2][2] = ( digitalRead ( BUTTON ) ) ? (COLOR_RED) : (COLOR_BLUE);
   ledmap[5][2] = ( digitalRead ( ENC_A  ) ) ? (COLOR_RED) : (COLOR_BLUE);

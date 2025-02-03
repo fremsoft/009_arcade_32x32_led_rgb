@@ -27,22 +27,24 @@
 #define COLOR_CYAN     6  /* 0x07FF */
 #define COLOR_YELLOW   3  /* 0xFFE0 */
 
-#define PLAYER_WIDTH   1
-#define PLAYER_HEIGHT  5
-#define PLAYER_SPEED   3
+#define PLAYER_WIDTH   3
+#define PLAYER_HEIGHT  2
 
-#define BALL_WIDTH   2 //3
-#define BALL_HEIGHT  2 //3
+#define ENEMY_WIDTH    3
+#define ENEMY_HEIGHT   3
 
-#define PUNTI_WINNER  5
+#define N_VITE         3
+#define N_MAX_SPARI    8
+#define N_MAX_BOMBE   16
 
 #define DELTA_T_GIOCO_MS       50
 #define DELTA_T_PUNTO_MS     1000
 #define DELTA_T_LAMPEGGIO_MS  200
 #define DELTA_T_GAME_OVER    5000
 
-#define TONO_BATTUTA_HZ   400
-#define TONO_BATTUTA_MS    50
-#define TONO_PUNTO_HZ    1000
-#define TONO_PUNTO_MS     500
+#define TIMEOUT_BOMBE    (3000 / DELTA_T_GIOCO_MS)
 
+#define TONO_BATTUTA_HZ     400
+#define TONO_BATTUTA_MS      50
+#define TONO_ESPLOSIONE_HZ  200
+#define TONO_ESPLOSIONE_MS 1000

@@ -8,7 +8,7 @@
  * a LED:  https://s.click.aliexpress.com/e/_ooQXSOl
  * 
  * Si tratta di un videogame dimostrativo da presentare al
- * Nerd Show del 1,2 febrbaio 2025
+ * Nerd Show del 1, 2 febbraio 2025
  * 
  * Visualizza l'esperienza di laboratorio completa: 
  * 1) https://youtube.com/live/A-FgUqgYTtE
@@ -48,7 +48,5 @@ void setup() {
 void loop() {
 
   displayRefresh();   // dura 1ms per singola riga (coppia di righe)
-
-
 
 }

@@ -82,16 +82,17 @@ void displaySetPixel(uint8_t x, uint8_t y, uint8_t rgb) {
   */
 }
 
-/*
 uint16_t displayGetPixel(uint8_t x, uint8_t y) {
+/*  
   uint8_t r, g, b;
   r = ledmap[x][y][0];
   g = ledmap[x][y][1];
   b = ledmap[x][y][2];
 
   return ((r << 8) & 0xF800) | ((g << 5) & 0x07E0) | (b & 0x001F);
-}
 */
+  return ledmap[x][y];
+}
 
 void displayDrawBackground(int bg) {
   uint8_t i, j;
@@ -111,9 +112,13 @@ void displayDrawBackground(int bg) {
   }
   else {
     memset( ledmap, 0, 32*32/* *3 */);
+  /*  for (i=0; i<32; i++) {
+      for (j=0; j<32; j++) {
+        ledmap[j][i] = pgm_read_byte(&background[i][j]);
+      }
+    }*/
   }
 }
-
 
 // dura 1ms per singola riga (coppia di righe)
 // significa che un refresh di pagina completo impiega 16mS
